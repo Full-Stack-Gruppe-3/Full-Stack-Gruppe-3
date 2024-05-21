@@ -1,15 +1,28 @@
+using Full_Stack_Gruppe_3.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Legg til tjenester til containeren
 builder.Services.AddControllersWithViews();
+
+// Legg til AppDbContext-tjenesten
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=weather.db")); // Eller bruk UseSqlServer for MS SQL LocalDB
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Sørg for at databasen er opprettet og migrert
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+}
+
+// Konfigurer HTTP-forespørselspipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
