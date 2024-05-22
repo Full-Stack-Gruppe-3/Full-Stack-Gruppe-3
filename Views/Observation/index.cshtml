@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Full_Stack_Gruppe_3.Models.Observation>
+
+@{
+    ViewData["Title"] = "Observations";
+}
+
+<h2>Observations</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Element ID</th>
+            <th>Value</th>
+            <th>Date</th>
+            <th>Time Offset</th>
+            <th>Time Resolution</th>
+            <th>Time Series ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var observation in Model)
+        {
+            <tr>
+                <td>@observation.ElementId</td>
+                <td>@observation.Value</td>
+                <td>@observation.Date.ToString("yyyy-MM-dd")</td>
+                <td>@observation.TimeOffset</td>
+                <td>@observation.TimeResolution</td>
+                <td>@observation.TimeSeriesId</td>
+            </tr>
+        }
+    </tbody>
+</table>
