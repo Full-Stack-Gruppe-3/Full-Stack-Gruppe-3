@@ -1,6 +1,51 @@
 ﻿@{
-    ViewData["Title"] = "Værmelding";
+    ViewData["Title"] = "Home Page";
 }
 
-<h2>Værmelding</h2>
-<p>Velkommen til lokal værmelding</p>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @* <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="@Url.Action("Index", "Home")">
+                            Værmelding
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Observation")">
+                            Observasjoner
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Element ID</th>
+            <th>Value</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var observation in Model)
+        {
+            <tr>
+                <td>@observation.ElementId</td>
+                <td>@observation.Value</td>
+                <td>@observation.Date.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
