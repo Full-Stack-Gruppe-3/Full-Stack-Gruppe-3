@@ -4,10 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Legg til tjenester til containeren
 builder.Services.AddControllersWithViews();
+
 
 // Configure DbContext with SQL Server and enable retry on failure
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -25,9 +27,21 @@ builder.Services.AddHttpClient();
 // Register the background service
 builder.Services.AddHostedService<WeatherDataImporter>();
 
+// Legg til AppDbContext-tjenesten
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite("Data Source=weather.db")); // Eller bruk UseSqlServer for MS SQL LocalDB
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Sørg for at databasen er opprettet og migrert
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+}
+
+// Konfigurer HTTP-forespørselspipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

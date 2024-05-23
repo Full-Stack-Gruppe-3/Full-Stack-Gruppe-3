@@ -1,0 +1,27 @@
+﻿@model Full_Stack_Gruppe_3.Models.WeatherForecast
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Forecast Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Forecast Details</h1>
+        <div class="form-group">
+            <label>Date</label>
+            <input asp-for="Date" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label>Temperature</label>
+            <input asp-for="Temperature" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label>Comment</label>
+            <input asp-for="Comment" class="form-control" readonly />
+        </div>
+        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+    </div>
+</body>
+</html>
