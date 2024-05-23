@@ -5,6 +5,7 @@ namespace Full_Stack_Gruppe_3.Models
 {
     public class Observation
     {
+
         [Key] public Guid Elementid { get; set; }
         public double Value { get; set; } 
         public DateTime Date { get; set; }
@@ -15,5 +16,6 @@ namespace Full_Stack_Gruppe_3.Models
 
         public RootObject RootObject { get; set; }
         public Level Level { get; set; }
+
     }
 }
