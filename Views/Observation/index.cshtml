@@ -4,58 +4,35 @@
     ViewData["Title"] = "Observations";
 }
 
-
-
 <h2>Observations</h2>
 
+<!-- Meny for å navigere til andre sider -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="@Url.Action("Index", "Home")">Værmelding</a>
+</nav>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-</div>
-
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="@Url.Action("Index", "Home")">
-                            Værmelding
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "Observation")">
-                            Observasjoner
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-</div>
-    
-<table class="table">
-    <thead>
-        <tr>
-            <th>Element ID</th>
-            <th>Value</th>
-            <th>Date</th>
-            <th>Time Offset</th>
-            <th>Time Resolution</th>
-            <th>Time Series ID</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var observation in Model)
-        {
+@if (Model != null && Model.Any())
+{
+    <p>Number of observations: @Model.Count()</p>
+    <table class="table">
+        <thead>
             <tr>
-                <td>@observation.ElementId</td>
-                <td>@observation.Value</td>
-                <td>@observation.Date.ToString("yyyy-MM-dd")</td>
-                <td>@observation.TimeOffset</td>
-                <td>@observation.TimeResolution</td>
-                <td>@observation.TimeSeriesId</td>
+                <th>Date</th>
+                <th>Temperature (°C)</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var observation in Model)
+            {
+                <tr>
+                    <td>@observation.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@observation.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No observations available.</p>
+}

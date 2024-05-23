@@ -1,34 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Full_Stack_Gruppe_3.Models;
 using Microsoft.AspNetCore.Mvc;
-using Full_Stack_Gruppe_3.Models;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Full_Stack_Gruppe_3.Controllers
 {
     public class ObservationController : Controller
     {
+        private readonly ILogger<ObservationController> _logger;
+        private readonly ApplicationDbContext _context;
+
+        public ObservationController(ILogger<ObservationController> logger, ApplicationDbContext context)
+        {
+            _logger = logger;
+            _context = context;
+        }
+
         public IActionResult Index()
         {
-            // For testing purposes, we'll create a mock list of observations
-            var observations = new List<Observation>
-            {
-                new Observation { ElementId = Guid.NewGuid(), Value = 15.5, Date = DateTime.Now.AddDays(-1), TimeOffset = "UTC+1", TimeResolution = "hourly", TimeSeriesId = 1 },
-                new Observation { ElementId = Guid.NewGuid(), Value = 14.3, Date = DateTime.Now.AddDays(-2), TimeOffset = "UTC+1", TimeResolution = "hourly", TimeSeriesId = 2 },
-                new Observation { ElementId = Guid.NewGuid(), Value = 16.7, Date = DateTime.Now.AddDays(-6), TimeOffset = "UTC+1", TimeResolution = "hourly", TimeSeriesId = 3 },
-                new Observation { ElementId = Guid.NewGuid(), Value = 16.7, Date = DateTime.Now.AddDays(-10), TimeOffset = "UTC+1", TimeResolution = "hourly", TimeSeriesId = 3 },
-                new Observation { ElementId = Guid.NewGuid(), Value = 16.7, Date = DateTime.Now.AddDays(-12), TimeOffset = "UTC+1", TimeResolution = "hourly", TimeSeriesId = 3 },
-                new Observation { ElementId = Guid.NewGuid(), Value = 16.7, Date = DateTime.Now.AddDays(-8), TimeOffset = "UTC+1", TimeResolution = "hourly", TimeSeriesId = 3 },
-                new Observation { ElementId = Guid.NewGuid(), Value = 16.7, Date = DateTime.Now.AddDays(-9), TimeOffset = "UTC+1", TimeResolution = "hourly", TimeSeriesId = 3 },
-            };
+            var observations = _context.Observations.ToList();
+            _logger.LogInformation("Number of observations retrieved: {Count}", observations.Count);
 
             var filteredObservations = FilterObservationsByLastSevenDays(observations);
-            foreach (var obs in filteredObservations)
-            {
-                Console.WriteLine($"ElementId: {obs.ElementId}, Value: {obs.Value}, Date: {obs.Date}, TimeSeriesId: {obs.TimeSeriesId}");
-            }
-
+            _logger.LogInformation("Number of filtered observations: {Count}", filteredObservations.Count);
 
             return View(filteredObservations);
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         private static List<Observation> FilterObservationsByLastSevenDays(List<Observation> observations)
