@@ -22,7 +22,7 @@ namespace Full_Stack_Gruppe_3.Models
                 .HasMany(r => r.Observations)
                 .WithOne(o => o.RootObject)
                 .HasForeignKey(o => o.TimeSeriesId);
-                
+
 
 
             // Ignore Level as it's embedded in Observation

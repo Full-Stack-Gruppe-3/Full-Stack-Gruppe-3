@@ -18,112 +18,112 @@ namespace Full_Stack_Gruppe_3.Migrations
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
 
             modelBuilder.Entity("Full_Stack_Gruppe_3.Models.Observation", b =>
-                {
-                    b.Property<Guid>("Elementid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+            {
+                b.Property<Guid>("Elementid")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
+                b.Property<DateTime>("Date")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("TimeOffset")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("TimeOffset")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("TimeResolution")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                b.Property<string>("TimeResolution")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
 
-                    b.Property<Guid>("TimeSeriesId")
-                        .HasColumnType("TEXT");
+                b.Property<Guid>("TimeSeriesId")
+                    .HasColumnType("TEXT");
 
-                    b.Property<double>("Value")
-                        .HasColumnType("REAL");
+                b.Property<double>("Value")
+                    .HasColumnType("REAL");
 
-                    b.HasKey("Elementid");
+                b.HasKey("Elementid");
 
-                    b.HasIndex("TimeSeriesId");
+                b.HasIndex("TimeSeriesId");
 
-                    b.ToTable("Observations");
-                });
+                b.ToTable("Observations");
+            });
 
             modelBuilder.Entity("Full_Stack_Gruppe_3.Models.RootObject", b =>
-                {
-                    b.Property<Guid>("SourceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+            {
+                b.Property<Guid>("SourceId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("ReferenceTime")
-                        .HasColumnType("TEXT");
+                b.Property<DateTime>("ReferenceTime")
+                    .HasColumnType("TEXT");
 
-                    b.HasKey("SourceId");
+                b.HasKey("SourceId");
 
-                    b.ToTable("RootObjects");
-                });
+                b.ToTable("RootObjects");
+            });
 
             modelBuilder.Entity("Full_Stack_Gruppe_3.Models.WeatherForecast", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("TEXT");
+
+                b.Property<string>("Comment")
+                    .IsRequired()
+                    .HasColumnType("TEXT");
+
+                b.Property<DateTime>("Date")
+                    .HasColumnType("TEXT");
+
+                b.Property<double>("Temperature")
+                    .HasColumnType("REAL");
+
+                b.HasKey("Id");
+
+                b.ToTable("WeatherForecasts");
+            });
+
+            modelBuilder.Entity("Full_Stack_Gruppe_3.Models.Observation", b =>
+            {
+                b.HasOne("Full_Stack_Gruppe_3.Models.RootObject", "RootObject")
+                    .WithMany("Observations")
+                    .HasForeignKey("TimeSeriesId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.OwnsOne("Full_Stack_Gruppe_3.Models.Level", "Level", b1 =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b1.Property<Guid>("ObservationElementid")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Comment")
+                    b1.Property<string>("LevelType")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Date")
+                    b1.Property<string>("Unit")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("Temperature")
-                        .HasColumnType("REAL");
+                    b1.Property<int>("Value")
+                        .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b1.HasKey("ObservationElementid");
 
-                    b.ToTable("WeatherForecasts");
+                    b1.ToTable("Observations");
+
+                    b1.WithOwner()
+                        .HasForeignKey("ObservationElementid");
                 });
 
-            modelBuilder.Entity("Full_Stack_Gruppe_3.Models.Observation", b =>
-                {
-                    b.HasOne("Full_Stack_Gruppe_3.Models.RootObject", "RootObject")
-                        .WithMany("Observations")
-                        .HasForeignKey("TimeSeriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Navigation("Level")
+                    .IsRequired();
 
-                    b.OwnsOne("Full_Stack_Gruppe_3.Models.Level", "Level", b1 =>
-                        {
-                            b1.Property<Guid>("ObservationElementid")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("LevelType")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Unit")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.Property<int>("Value")
-                                .HasColumnType("INTEGER");
-
-                            b1.HasKey("ObservationElementid");
-
-                            b1.ToTable("Observations");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ObservationElementid");
-                        });
-
-                    b.Navigation("Level")
-                        .IsRequired();
-
-                    b.Navigation("RootObject");
-                });
+                b.Navigation("RootObject");
+            });
 
             modelBuilder.Entity("Full_Stack_Gruppe_3.Models.RootObject", b =>
-                {
-                    b.Navigation("Observations");
-                });
+            {
+                b.Navigation("Observations");
+            });
 #pragma warning restore 612, 618
         }
     }

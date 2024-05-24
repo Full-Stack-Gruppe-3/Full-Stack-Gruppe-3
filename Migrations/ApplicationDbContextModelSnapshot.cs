@@ -23,32 +23,32 @@ namespace Full_Stack_Gruppe_3.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Full_Stack_Gruppe_3.Models.Observation", b =>
-                {
-                    b.Property<Guid>("ElementId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            {
+                b.Property<Guid>("ElementId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("Date")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("TimeOffset")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("TimeOffset")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TimeResolution")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("TimeResolution")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TimeSeriesId")
-                        .HasColumnType("int");
+                b.Property<int>("TimeSeriesId")
+                    .HasColumnType("int");
 
-                    b.Property<double>("Value")
-                        .HasColumnType("float");
+                b.Property<double>("Value")
+                    .HasColumnType("float");
 
-                    b.HasKey("ElementId");
+                b.HasKey("ElementId");
 
-                    b.ToTable("Observations");
-                });
+                b.ToTable("Observations");
+            });
 #pragma warning restore 612, 618
         }
     }
